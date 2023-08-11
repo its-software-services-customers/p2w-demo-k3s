@@ -18,7 +18,7 @@ spec:
     dex: {}
     server:  
       config:
-        url: https://github.com/its-software-services-customers/p2w-demo-addons.git
+        url: https://github.com/its-software-services-customers/p2w-epeagle-addons.git
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -31,7 +31,7 @@ spec:
 
   # Source of the application manifests
   source:
-    repoURL: https://github.com/its-software-services-customers/p2w-demo-addons.git
+    repoURL: https://github.com/its-software-services-customers/p2w-epeagle-addons.git
     targetRevision: '<<ENV>>' #Should be based on environment
     path: 'applications'
 
@@ -67,7 +67,7 @@ metadata:
     argocd.argoproj.io/secret-type: repository
 type: Opaque    
 stringData:
-  url: https://github.com/its-software-services-customers/p2w-demo-addons.git
+  url: https://github.com/its-software-services-customers/p2w-epeagle-addons.git
   #username: dummy-gh
   #password: 'notused-because-it-is-public'
   type: git
