@@ -5,7 +5,7 @@ export $(xargs <../.env)
 NS=wordpress
 TAR_NAME=wp-content.tar
 DB_PASSWD=${MARIADB_ROOT_PASSWORD}
-WP_POD=$(kubectl get pods -n ${NS} --no-headers -o custom-columns=":metadata.name" | grep wordpress)
+WP_POD=$(kubectl get pods -n ${NS} --no-headers -o custom-columns=":metadata.name" | grep wordpress | grep -v mysql)
 DB_POD=wordpress-production-mysql-0
 BK_CMD="mysqldump -u root --password=${DB_PASSWD} wordpress > /tmp/wordpress_backup.sql"
 
