@@ -11,11 +11,8 @@ BK_CMD="mysqldump -u root --password=${DB_PASSWD} wordpress > /tmp/wordpress_bac
 
 ### mysql ###
 kubectl exec -it -n ${NS} ${DB_POD} -- /bin/bash -c "${BK_CMD}"
-kubectl cp ${NS}/${DB_POD}:/tmp/wordpress_backup.sql wordpress_backup.sql
+kubectl cp ${NS}/${DB_POD}:/tmp/wordpress_backup.sql ./wordpress_backup.sql
 
 ### wp-content ###
 kubectl exec -it -n ${NS} ${WP_POD} -- /bin/bash -c "cp -r /bitnami/wordpress/wp-content /tmp; cd /tmp; tar -cvf ${TAR_NAME} wp-content"
-kubectl cp ${NS}/${WP_POD}:/tmp/${TAR_NAME} ${TAR_NAME}
-
-cd ${APP_PATH}
-sudo tar -cvf ${TAR_NAME} wp-content
+kubectl cp ${NS}/${WP_POD}:/tmp/${TAR_NAME} ./${TAR_NAME}
