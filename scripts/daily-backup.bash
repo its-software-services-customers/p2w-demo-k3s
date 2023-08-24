@@ -5,6 +5,7 @@ SQL_FILE=wordpress_backup.sql
 TAR_FILE=wp-content.tar
 UPLOAD_SQL_FILE=${SQL_FILE}.${TS}
 UPLOAD_TAR_FILE=${TAR_FILE}.${TS}
+TMP_TEMPLATE=template.json
 
 KEY_FILE=${HOME}/secrets/sa.json
 BUCKET=gs://p2w-backup/ep-eagle-pharma
@@ -20,7 +21,17 @@ mv ${SQL_FILE} ${UPLOAD_SQL_FILE}
 mv ${TAR_FILE} ${UPLOAD_TAR_FILE}
 gsutil cp ${UPLOAD_SQL_FILE} ${UPLOAD_TAR_FILE} ${BUCKET}
 
+export $(xargs <../.env)
+
+cat << EOF > ${TMP_TEMPLATE}
+{
+    "text": "Done uploading files [${UPLOAD_SQL_FILE}] [${UPLOAD_TAR_FILE}]"
+}
+EOF
+
+curl -X POST -H 'Content-type: application/json' --data "@${TMP_TEMPLATE}" ${SLACK_URI}
+
 echo "##### Remove local uploaded files ####"
-rm ${UPLOAD_SQL_FILE} ${UPLOAD_TAR_FILE}
+rm ${UPLOAD_SQL_FILE} ${UPLOAD_TAR_FILE} ${TMP_TEMPLATE}
 
 echo "##### Done ####"
