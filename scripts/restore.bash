@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # NOTE : The SQL import should exclude 'wp_users' & 'wp_usermeta' tables to preserve initial 'admin' password.
-export $(xargs <.env)
+export $(xargs <../.env)
 
 NS=wordpress
 TAR_FILE=wp-content.tar
@@ -22,4 +22,4 @@ echo "Extracting file [${TAR_FILE}] in pod [${WP_POD}]..."
 kubectl exec -it -n ${NS} ${WP_POD} -- /bin/bash -c "cd /bitnami/wordpress; touch migrate.txt; tar -xvf ${TAR_FILE}"
 
 echo "Importing SQL [${DUMPED_NAME}] in pod [${DB_POD}]..."
-kubectl exec -it -n ${NS} ${DB_POD} -- /bin/bash -c "cd /tmp; mysql -u root --password=${MYSQL_ROOT_PASSWORD} wordpress < ${DUMPED_NAME}"
+kubectl exec -it -n ${NS} ${DB_POD} -- /bin/bash -c "cd /tmp; mysql -u root --password=${MARIADB_ROOT_PASSWORD} wordpress < ${DUMPED_NAME}"
