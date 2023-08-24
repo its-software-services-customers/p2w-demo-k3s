@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export KUBECONFIG=${HOME}/p2w-epeagle-k3s/kubeconfig.yaml
+
 TS=$(date +%Y%m%d_%H%M%S)
 SQL_FILE=wordpress_backup.sql
 TAR_FILE=wp-content.tar
